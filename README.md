@@ -1,6 +1,6 @@
 # arch-i3
 
-Automated i3 desktop setup for Arch Linux with LightDM, Polybar, Rofi, Alacritty, and additional utilities.
+Install i3 on Arch Linux with LightDM, Polybar, Rofi, Alacritty, and other utilities.
 
 ## Installation
 
