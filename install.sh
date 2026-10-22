@@ -12,5 +12,11 @@ cat > "$HOME/.xinitrc" <<'EOF'
 exec i3
 EOF
 
-echo "Installation complete. You can start i3 with:"
-echo "startx"
+cat >> "$HOME/.bash_profile" <<'EOF'
+
+if [[ -z "$DISPLAY" && "$(tty)" == "/dev/tty1" ]]; then
+  exec startx
+fi
+EOF
+
+echo "Installation complete. i3 will start automatically after login on TTY1."
