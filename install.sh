@@ -6,7 +6,7 @@ sudo pacman -Syu --needed \
   xorg-xinit \
   i3-wm \
   dmenu \
-  alacritty
+  alacritty </dev/tty
 
 cat > "$HOME/.xinitrc" <<'EOF'
 exec i3
