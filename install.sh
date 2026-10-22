@@ -13,6 +13,7 @@ die() { printf '[ERROR] %s\n' "$*" >&2; exit 1; }
 [[ ${EUID} -ne 0 ]] || die 'Do not run this script as root. Run it as a regular user.'
 command -v pacman >/dev/null 2>&1 || die 'This script requires Arch Linux or a pacman-based distribution.'
 command -v sudo >/dev/null 2>&1 || die 'sudo was not found.'
+[[ -r /dev/tty && -w /dev/tty ]] || die 'An interactive terminal is required.'
 
 packages=(
   git
@@ -23,10 +24,10 @@ packages=(
 )
 
 info 'Installing packages from the official repositories...'
-sudo pacman -Syu --needed "${packages[@]}"
+sudo pacman -Syu --needed "${packages[@]}" </dev/tty
 
 info 'Enabling LightDM to start automatically on the next boot...'
-sudo systemctl enable lightdm.service
+sudo systemctl enable lightdm.service </dev/tty
 
 repo_dir="${HOME}/.local/src/polybar-themes"
 mkdir -p "$(dirname "$repo_dir")"
@@ -40,12 +41,13 @@ else
   git clone --depth=1 https://github.com/adi1090x/polybar-themes.git "$repo_dir"
 fi
 
+[[ -f "$repo_dir/setup.sh" ]] || die "The Polybar theme installer was not found at $repo_dir/setup.sh."
+
 info 'Starting the interactive Polybar theme installer...'
-info 'Review the contents of setup.sh before proceeding if you have not verified the repository.'
+info 'Review setup.sh before proceeding if you have not verified the repository.'
 (
   cd "$repo_dir"
-  chmod +x setup.sh
-  ./setup.sh
+  bash ./setup.sh </dev/tty
 )
 
 printf '\n[OK] Installation completed successfully.\n'
