@@ -1,6 +1,6 @@
 # arch-i3
 
-Install i3 on Arch Linux with LightDM, Polybar, Rofi, Alacritty, and other utilities.
+Minimal i3 installation for Arch Linux using Xorg.
 
 ## Installation
 
